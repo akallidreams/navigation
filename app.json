@@ -1,29 +1,31 @@
 {
   "expo": {
-    "name": "ak-icons",
-    "slug": "ak-icons",
+    "name": "@akalli/icons",
+    "slug": "@akalli/icons",
     "version": "1.0.0",
+    "androidStatusBar": {
+      "backgroundColor": "#e05a84",
+      "translucent": false
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#303030"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#303030"
       }
     },
     "web": {
