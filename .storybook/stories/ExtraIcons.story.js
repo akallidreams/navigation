@@ -19,7 +19,7 @@ storiesOf("Extra Icons", module)
           <Text {...styles.textProps}>
             interface IIconProps{" "}
             {`{
-    size: string;
+    size?: string;
     color?: string;
   }`}
           </Text>

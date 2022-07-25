@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "@akalli/icons",
-    "slug": "@akalli/icons",
+    "name": "akalli/icons",
+    "slug": "akalli/icons",
     "version": "1.0.0",
     "androidStatusBar": {
       "backgroundColor": "#e05a84",

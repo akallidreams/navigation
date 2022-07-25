@@ -18,7 +18,7 @@ storiesOf("Navigation Icons", module)
         <Center w="full" h="full" bg={styles.bg} borderWidth="2px" py="30%">
           <Text {...styles.textProps}>
             {`interface iconProps {
-              size: string;
+              size?: string;
               color?: string;
               }`}
           </Text>

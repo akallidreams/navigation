@@ -8,7 +8,7 @@
 
 1.  Replace main with `node_modules/expo/AppEntry.js` in `package.json`
 2.  Add all packages again to dependencies in `package.json`
-3.  `Expo start` or `npm install` and scan QR code on `expo go`
+3.  `expo start` or `npm start` and scan QR code on `expo go`
 
 # Dependencies of package.json
 

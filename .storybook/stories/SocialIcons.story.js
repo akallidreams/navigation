@@ -19,7 +19,7 @@ storiesOf("Social Icons", module)
           <Text {...styles.textProps}>
             interface IiconProps{" "}
             {`{
-    size: string;
+    size?: string;
     color?: string;
   }`}
           </Text>
