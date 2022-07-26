@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "akalli/icons",
-    "slug": "akalli/icons",
+    "name": "akalli-navigation",
+    "slug": "akalli-navigation",
     "version": "1.0.0",
     "androidStatusBar": {
-      "backgroundColor": "#e05a84",
+      "backgroundColor": "#35a0fe",
       "translucent": false
     },
     "orientation": "portrait",

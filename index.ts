@@ -1,1 +1,2 @@
-export { AkIcons } from "./src";
+export { AkNavigation } from "./src";
+export type { AkNavTypes } from "./src";
