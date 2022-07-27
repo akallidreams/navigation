@@ -28,3 +28,32 @@ export interface IStack {
   initial: string;
   drawer?: IDrawer;
 }
+
+export interface IColors {
+  primary: string;
+  secondary?: string;
+  grey?: string;
+  greyLight?: string;
+  greyDark?: string;
+  white?: string;
+  extra?: any;
+}
+
+export interface IVariants {
+  Text: {
+    variants: {
+      primary: any;
+      title: any;
+    };
+  };
+  Button: {
+    variants: {
+      primary: any;
+    };
+  };
+}
+
+export interface IExtendThemeConfig {
+  variants: IVariants;
+  colors: IColors;
+}
