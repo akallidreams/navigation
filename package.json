@@ -1,6 +1,6 @@
 {
   "name": "@akalli/navigation",
-  "version": "0.0.8",
+  "version": "0.1.1",
   "main": "index.ts",
   "files": [
     "src/*.tsx",
@@ -28,9 +28,7 @@
     "test": "jest --passWithNoTests",
     "snapshots": "jest -u --coverage=false"
   },
-  "dependencies": {
-    "@akalli/state": "^0.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/webpack-config": "^0.16.27",

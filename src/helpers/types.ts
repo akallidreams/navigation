@@ -11,16 +11,25 @@ export interface IDrawer {
   position: "left" | "right";
   bg: string;
   labelColor: string;
+  icons?: any;
 }
 
-export interface IRouter {
-  authStack: IRoute[];
+export interface IRouterBase {
   authInitial: string;
-  appStack: IRoute[];
   appInitial: string;
   drawer?: IDrawer;
   activeStack: "app" | "auth";
   env: "dev" | "prod";
+}
+export interface IRouter extends IRouterBase {
+  screens: {
+    appStack: IRoute[];
+    authStack: IRoute[];
+  };
+}
+
+export interface IRouterProps extends IRouterBase {
+  screens: IScreens;
 }
 
 export interface IStack {
@@ -29,31 +38,17 @@ export interface IStack {
   drawer?: IDrawer;
 }
 
-export interface IColors {
-  primary: string;
-  secondary?: string;
-  grey?: string;
-  greyLight?: string;
-  greyDark?: string;
-  white?: string;
-  extra?: any;
+export interface IScreensNames {
+  [key: string]: React.ElementType;
 }
 
-export interface IVariants {
-  Text: {
-    variants: {
-      primary: any;
-      title: any;
-    };
-  };
-  Button: {
-    variants: {
-      primary: any;
-    };
-  };
+export interface IScreens {
+  MainScreens: IScreensNames;
+  AssistantScreens: IScreensNames;
+  AuthScreens: IScreensNames;
 }
 
-export interface IExtendThemeConfig {
-  variants: IVariants;
-  colors: IColors;
+export interface IBgs {
+  authBg: string;
+  appBg: string;
 }

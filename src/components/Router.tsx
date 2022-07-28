@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { PageContainer } from "./PageContainer";
 import { Menu } from "./Menu";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { IRoute, IRouter, IStack } from "../helpers/types";
+import { IRoute, IRouter, IRouterProps, IStack } from "../helpers/types";
+import { utils } from "../helpers";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -72,35 +73,36 @@ const AuthStack = (props: IStack) => {
   );
 };
 
-interface IProps {
-  config: IRouter;
-}
-
-const prodRouting = ({ config }: IProps, { auth, token }: any) =>
+const prodRouting = ({ config }: { config: IRouter }, { auth, token }: any) =>
   !auth.tokens.accessToken || token ? (
-    <AppStack routes={config.appStack} initial={config.appInitial} />
+    <AppStack routes={config.screens.appStack} initial={config.appInitial} />
   ) : (
-    <AuthStack routes={config.authStack} initial={config.authInitial} />
+    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
   );
 
-const devRouting = ({ config }: IProps) =>
+const devRouting = ({ config }: { config: IRouter }) =>
   config.activeStack === "app" ? (
     <AppStack
-      routes={config.appStack}
+      routes={config.screens.appStack}
       initial={config.appInitial}
       drawer={config.drawer}
     />
   ) : (
-    <AuthStack routes={config.authStack} initial={config.authInitial} />
+    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
   );
 
-export const Router = (props: IProps) => {
+export const Router = (props: { config: IRouterProps }) => {
   const { auth } = useSelector((state: any) => state);
   const persistRoot = AsyncStorage.getItem("persist:root");
   const [token, setToken] = useState();
+  const routes = utils.createRoutes(props.config.screens);
+  const config = {
+    ...props.config,
+    screens: routes,
+  };
 
   useEffect(() => {
-    persistRoot.then((tk: string) => {
+    persistRoot.then((tk: string | null) => {
       // FIXME: tk type
       const local = JSON.parse(tk as string);
       const userToken = JSON.parse(local.auth);
@@ -111,8 +113,8 @@ export const Router = (props: IProps) => {
     <>
       <NavigationContainer>
         {props.config.env === "dev"
-          ? devRouting(props)
-          : prodRouting(props, { auth, token })}
+          ? devRouting({ config })
+          : prodRouting({ config }, { auth, token })}
       </NavigationContainer>
     </>
   );
