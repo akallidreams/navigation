@@ -28,7 +28,9 @@
     "test": "jest --passWithNoTests",
     "snapshots": "jest -u --coverage=false"
   },
-  "dependencies": {},
+  "dependencies": {
+    "styled-components": "^5.3.5"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/webpack-config": "^0.16.27",

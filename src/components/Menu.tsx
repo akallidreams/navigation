@@ -4,9 +4,9 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
-import { Box, Pressable, VStack } from "native-base";
-import { AkIcons } from "@akalli/icons";
 import { IRoute } from "../helpers/types";
+import { Pressable, StyleSheet, View } from "react-native";
+import { CloseIcon } from "./Icons";
 
 interface Props {
   DrawerProps: DrawerContentComponentProps;
@@ -23,20 +23,17 @@ export const Menu = (props: Props) => {
 
   return (
     <>
-      <Box position="absolute" right="50" top="65">
+      <View style={styles.closeButtonContainer}>
         <Pressable
           onPress={() => {
             dispatch(DrawerActions.closeDrawer());
           }}
         >
-          <AkIcons.NavIcons.CloseIcon
-            size={iconsSize}
-            color={props.labelColor}
-          />
+          <CloseIcon size={iconsSize} color={props.labelColor} />
         </Pressable>
-      </Box>
+      </View>
       <DrawerContentScrollView {...props}>
-        <VStack mt="60px" pl="25px">
+        <View style={styles.drawerItemContainer}>
           {props.routes.map(({ name, Icon }) => (
             <DrawerItem
               key={name}
@@ -50,8 +47,20 @@ export const Menu = (props: Props) => {
               label={name}
             />
           ))}
-        </VStack>
+        </View>
       </DrawerContentScrollView>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  closeButtonContainer: {
+    position: "absolute",
+    right: "50",
+    top: "65",
+  },
+  drawerItemContainer: {
+    marginTop: "60px",
+    paddingLeft: "25px",
+  },
+});

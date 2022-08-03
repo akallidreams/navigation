@@ -1,8 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { PageContainer } from "./PageContainer";
 import { Menu } from "./Menu";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -92,8 +90,8 @@ const devRouting = ({ config }: { config: IRouter }) =>
   );
 
 export const Router = (props: { config: IRouterProps }) => {
-  const { auth } = useSelector((state: any) => state);
-  const persistRoot = AsyncStorage.getItem("persist:root");
+  const { auth } = props.useSelector((state: any) => state);
+  const persistRoot = props.AsyncStorage.getItem("persist:root");
   const [token, setToken] = useState();
   const routes = utils.createRoutes(props.config.screens);
   const config = {
