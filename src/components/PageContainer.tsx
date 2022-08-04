@@ -1,18 +1,22 @@
-import { VStack } from "native-base";
-import { React } from "react";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { IColor } from "../helpers/types";
 
 interface Props {
-  children: React.element;
-  bg?: string;
+  children: React.ReactNode | React.ReactNode[];
+  bg?: IColor;
 }
 
 export const PageContainer = (props: Props) => {
-  return (
-    <VStack h="full" w="full" bg={props.bg || "white"} alignItems="center">
-      {props.children}
-    </VStack>
-  );
+  return <View style={pageContainerStyle(props.bg)}>{props.children}</View>;
 };
+
+const pageContainerStyle = (bg: IColor | undefined) =>
+  StyleSheet.flatten({
+    height: "100%",
+    width: "100%",
+    backgroundColor: bg || "transparent",
+  });
 
 /**
  @docs

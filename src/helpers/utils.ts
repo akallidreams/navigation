@@ -1,4 +1,4 @@
-import { IBgs, IScreens, IScreensNames } from "./types";
+import { IBgs, IColor, IScreens, IScreensNames } from "./types";
 
 const snakelize = (str: string) =>
   str
@@ -6,7 +6,7 @@ const snakelize = (str: string) =>
     .join("-")
     .toLowerCase();
 
-const generateStack = (Stack: IScreensNames, bg: string | undefined) =>
+const generateStack = (Stack: IScreensNames, bg: IColor | undefined) =>
   Object.keys(Stack).map((Screen) => ({
     Component: Stack[Screen as keyof typeof Stack],
     name: Screen,

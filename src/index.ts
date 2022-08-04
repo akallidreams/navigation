@@ -1,10 +1,5 @@
-import { Router } from "./components";
+export { Router } from "./components";
 import * as AkNavTypes from "./helpers/types";
-import { useNav } from "./hooks";
-
-export const AkNavigation = {
-  Router,
-  useNav,
-};
+export { useNav } from "./hooks";
 
 export type { AkNavTypes };

@@ -19,13 +19,13 @@ export interface IColors {
 export interface IRoute {
   Component: React.ElementType;
   name: string;
-  bg: string | undefined;
+  bg?: IColor | undefined;
   Icon?: React.ElementType;
 }
 
 export interface IDrawer {
   position: "left" | "right";
-  bg: string;
+  bg: IColor | undefined;
   labelColor: string;
   icons?: any;
 }
@@ -67,6 +67,6 @@ export interface IScreens {
 }
 
 export interface IBgs {
-  authBg: string;
-  appBg: string;
+  authBg: IColor | undefined;
+  appBg: IColor | undefined;
 }

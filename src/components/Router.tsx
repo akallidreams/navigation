@@ -90,31 +90,35 @@ const devRouting = ({ config }: { config: IRouter }) =>
   );
 
 export const Router = (props: { config: IRouterProps }) => {
-  const { auth } = props.useSelector((state: any) => state);
-  const persistRoot = props.AsyncStorage.getItem("persist:root");
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(null);
+  const [auth, setAuth] = useState(null);
+
+  if (!(props.config.env === "dev")) {
+    const authSelector = props.config.useSelector((state: any) => state).auth;
+    const persistRoot = props.config.AsyncStorage.getItem("persist:root");
+    useEffect(() => {
+      setAuth(authSelector);
+      persistRoot.then((tk: string | null) => {
+        // FIXME: tk type
+        const local = JSON.parse(tk as string);
+        const userToken = JSON.parse(local.auth);
+        setToken(userToken.accessToken);
+      });
+    }, []);
+  }
+
   const routes = utils.createRoutes(props.config.screens);
   const config = {
     ...props.config,
     screens: routes,
   };
 
-  useEffect(() => {
-    persistRoot.then((tk: string | null) => {
-      // FIXME: tk type
-      const local = JSON.parse(tk as string);
-      const userToken = JSON.parse(local.auth);
-      setToken(userToken.accessToken);
-    });
-  }, []);
   return (
-    <>
-      <NavigationContainer>
-        {props.config.env === "dev"
-          ? devRouting({ config })
-          : prodRouting({ config }, { auth, token })}
-      </NavigationContainer>
-    </>
+    <NavigationContainer>
+      {props.config.env === "dev"
+        ? devRouting({ config })
+        : prodRouting({ config }, { auth, token })}
+    </NavigationContainer>
   );
 };
 
