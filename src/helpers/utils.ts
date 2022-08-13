@@ -10,11 +10,13 @@ const generateStack = (Stack: IScreensNames, bg: IColor | undefined) =>
   Object.keys(Stack).map((Screen) => ({
     Component: Stack[Screen as keyof typeof Stack],
     name: Screen,
-    bg: bg || "#ffffff",
+    bg: bg || "transparent",
   }));
 
 export const createRoutes = (Screens: IScreens, bgs?: IBgs) => ({
-  authStack: generateStack(Screens.AuthScreens, bgs?.authBg),
+  authStack: Screens.AuthScreens
+    ? generateStack(Screens.AuthScreens, bgs?.authBg)
+    : [],
   appStack: generateStack(
     { ...Screens.MainScreens, ...Screens.AssistantScreens },
     bgs?.appBg

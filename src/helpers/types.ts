@@ -31,13 +31,13 @@ export interface IDrawer {
 }
 
 export interface IRouterBase {
-  authInitial: string;
+  authInitial?: string;
   appInitial: string;
   drawer?: IDrawer;
-  activeStack: "app" | "auth";
-  env: "dev" | "prod";
-  useSelector: any;
-  AsyncStorage: any;
+  activeStack?: "app" | "auth";
+  env?: "dev" | "prod";
+  useSelector?: any;
+  AsyncStorage?: any;
 }
 export interface IRouter extends IRouterBase {
   screens: {
@@ -63,7 +63,7 @@ export interface IScreensNames {
 export interface IScreens {
   MainScreens: IScreensNames;
   AssistantScreens: IScreensNames;
-  AuthScreens: IScreensNames;
+  AuthScreens?: IScreensNames;
 }
 
 export interface IBgs {

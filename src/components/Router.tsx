@@ -74,26 +74,34 @@ const AuthStack = (props: IStack) => {
 const prodRouting = ({ config }: { config: IRouter }, { auth, token }: any) =>
   !auth.tokens.accessToken || token ? (
     <AppStack routes={config.screens.appStack} initial={config.appInitial} />
-  ) : (
+  ) : config.authInitial ? (
     <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
+  ) : (
+    console.error(
+      "Config file couldn't find one of those configs: auth stack, app stack, authInitial or appInitial"
+    )
   );
 
 const devRouting = ({ config }: { config: IRouter }) =>
-  config.activeStack === "app" ? (
+  config.activeStack === "auth" && config.authInitial ? (
+    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
+  ) : config.appInitial ? (
     <AppStack
       routes={config.screens.appStack}
       initial={config.appInitial}
       drawer={config.drawer}
     />
   ) : (
-    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
+    console.error(
+      "Config file couldn't find one of those configs: auth stack, app stack, authInitial or appInitial"
+    )
   );
 
 export const Router = (props: { config: IRouterProps }) => {
   const [token, setToken] = useState(null);
   const [auth, setAuth] = useState(null);
 
-  if (!(props.config.env === "dev")) {
+  if (props.config.env === "prod") {
     const authSelector = props.config.useSelector((state: any) => state).auth;
     const persistRoot = props.config.AsyncStorage.getItem("persist:root");
     useEffect(() => {
@@ -113,18 +121,17 @@ export const Router = (props: { config: IRouterProps }) => {
     screens: routes,
   };
 
+  // FIXME: fix config type
+
   return (
     <NavigationContainer>
-      {props.config.env === "dev"
-        ? devRouting({ config })
-        : prodRouting({ config }, { auth, token })}
+      {props.config.env === "prod"
+        ? prodRouting({ config }, { auth, token })
+        : devRouting({ config })}
     </NavigationContainer>
   );
 };
 
 /**
  @docs
-- This component is a wrapper used to decide each page's routes and which pages are available while you're logged off and which pages are available while you're logged in using a token e.g.:
-  Logged in `(AppStack)`: Dashboard
-  Logged off `(AuthStack)`: SignIn, SignUp, ResetPassword, ConfirmEmail
  */

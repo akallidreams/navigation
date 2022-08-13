@@ -1,7 +1,5 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
-import { useTheme } from "styled-components";
-import { types } from "../helpers";
 import { colors } from "../helpers/colors";
 import { IColor } from "../helpers/types";
 
@@ -11,7 +9,6 @@ interface IProps {
 }
 
 export const CloseIcon = (props: IProps) => {
-  const theme = useTheme() as any;
   return (
     <Svg width={props.size || "20px"} height={props.size || "20px"} fill="none">
       <Path
@@ -23,7 +20,6 @@ export const CloseIcon = (props: IProps) => {
 };
 
 export const BackIcon = (props: IProps) => {
-  const theme = useTheme() as any;
   return (
     <Svg width={props.size || "20px"} height={props.size || "20px"} fill="none">
       <Path
