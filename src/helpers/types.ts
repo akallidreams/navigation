@@ -26,7 +26,7 @@ export interface IRoute {
 export interface IDrawer {
   position: "left" | "right";
   bg: IColor | undefined;
-  labelColor: string;
+  labelColor: IColor | undefined;
   icons?: any;
 }
 
@@ -54,6 +54,7 @@ export interface IStack {
   routes: IRoute[];
   initial: string;
   drawer?: IDrawer;
+  CustomMenu?: React.ElementType;
 }
 
 export interface IScreensNames {

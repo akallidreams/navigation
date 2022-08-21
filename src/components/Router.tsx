@@ -24,15 +24,20 @@ const Screens = (props: { routes: IRoute[] }) =>
   ));
 
 const AppStack = (props: IStack) => {
+  const { CustomMenu } = props;
   return props.drawer ? (
     <Drawer.Navigator
-      drawerContent={(drawer: any) => (
-        <Menu
-          DrawerProps={drawer}
-          routes={props.routes}
-          labelColor={props.drawer?.labelColor}
-        />
-      )}
+      drawerContent={(drawer: any) =>
+        CustomMenu ? (
+          <CustomMenu DrawerProps={drawer} routes={props.routes} />
+        ) : (
+          <Menu
+            DrawerProps={drawer}
+            routes={props.routes}
+            labelColor={props.drawer?.labelColor}
+          />
+        )
+      }
       initialRouteName={props.initial}
       screenOptions={{
         headerShown: false,

@@ -97,6 +97,10 @@ const routerConfig: IRouterProps = {
 };
 ```
 
+## Custom drawer
+
+If you want to create a complete custom drawer menu you can use `CustomMenu` propertie at the config. It receives 2 props, `DrawerProps` and `routes`.
+
 # Publish a new version
 
 1.  Replace main with `index.ts` on `package.json`
