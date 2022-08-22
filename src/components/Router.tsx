@@ -34,16 +34,16 @@ const AppStack = (props: IStack) => {
           <Menu
             DrawerProps={drawer}
             routes={props.routes}
-            labelColor={props.drawer?.basicMenu?.labelColor}
+            labelColor={props.drawer?.labelColor}
           />
         )
       }
       initialRouteName={props.initial}
       screenOptions={{
         headerShown: false,
-        drawerPosition: props?.drawer?.basicMenu?.position || "right",
+        drawerPosition: props?.drawer?.position || "right",
         drawerStyle: {
-          backgroundColor: props?.drawer?.basicMenu?.bg || "black",
+          backgroundColor: props?.drawer?.bg || "black",
           width: 300,
           opacity: 0.9,
         },

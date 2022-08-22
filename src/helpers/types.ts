@@ -24,12 +24,10 @@ export interface IRoute {
 }
 
 export interface IDrawer {
-  basicMenu?: {
-    position: "left" | "right";
-    bg: IColor | undefined;
-    labelColor: IColor | undefined;
-    icons?: any;
-  };
+  position: "left" | "right";
+  bg: IColor | undefined;
+  labelColor: IColor | undefined;
+  icons?: any;
   CustomMenu?: React.ElementType;
 }
 
