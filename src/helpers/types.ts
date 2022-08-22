@@ -24,10 +24,13 @@ export interface IRoute {
 }
 
 export interface IDrawer {
-  position: "left" | "right";
-  bg: IColor | undefined;
-  labelColor: IColor | undefined;
-  icons?: any;
+  basicMenu?: {
+    position: "left" | "right";
+    bg: IColor | undefined;
+    labelColor: IColor | undefined;
+    icons?: any;
+  };
+  CustomMenu?: React.ElementType;
 }
 
 export interface IRouterBase {
@@ -54,7 +57,6 @@ export interface IStack {
   routes: IRoute[];
   initial: string;
   drawer?: IDrawer;
-  CustomMenu?: React.ElementType;
 }
 
 export interface IScreensNames {

@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { PageContainer } from "./PageContainer";
 import { Menu } from "./Menu";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -24,26 +24,26 @@ const Screens = (props: { routes: IRoute[] }) =>
   ));
 
 const AppStack = (props: IStack) => {
-  const { CustomMenu } = props;
+  const CustomMenu = props.drawer?.CustomMenu as React.ElementType;
   return props.drawer ? (
     <Drawer.Navigator
       drawerContent={(drawer: any) =>
-        CustomMenu ? (
+        props.drawer?.CustomMenu ? (
           <CustomMenu DrawerProps={drawer} routes={props.routes} />
         ) : (
           <Menu
             DrawerProps={drawer}
             routes={props.routes}
-            labelColor={props.drawer?.labelColor}
+            labelColor={props.drawer?.basicMenu?.labelColor}
           />
         )
       }
       initialRouteName={props.initial}
       screenOptions={{
         headerShown: false,
-        drawerPosition: props?.drawer?.position || "right",
+        drawerPosition: props?.drawer?.basicMenu?.position || "right",
         drawerStyle: {
-          backgroundColor: props?.drawer?.bg || "black",
+          backgroundColor: props?.drawer?.basicMenu?.bg || "black",
           width: 300,
           opacity: 0.9,
         },
