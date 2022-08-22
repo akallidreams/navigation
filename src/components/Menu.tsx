@@ -56,11 +56,11 @@ export const Menu = (props: Props) => {
 const styles = StyleSheet.create({
   closeButtonContainer: {
     position: "absolute",
-    right: "50",
-    top: "65",
+    right: 50,
+    top: 65,
   },
   drawerItemContainer: {
-    marginTop: "60px",
-    paddingLeft: "25px",
+    marginTop: 60,
+    paddingLeft: 25,
   },
 });
