@@ -25,8 +25,8 @@ export interface IRoute {
 
 export interface IDrawer {
   position: "left" | "right";
-  bg: IColor | undefined;
-  labelColor: IColor | undefined;
+  bg?: IColor | undefined;
+  labelColor?: IColor | undefined;
   icons?: any;
   CustomMenu?: React.ElementType;
 }
