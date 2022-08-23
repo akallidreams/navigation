@@ -1,0 +1,7 @@
+- Update docs
+- publish new version
+- add to git
+- update version at CAA
+- create POST with navigation news at medium and dev.to and linkedin and twitter
+- Create video about navigation and components
+- CLI to create modules and maybe create dicts

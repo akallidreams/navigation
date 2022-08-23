@@ -32,13 +32,13 @@ export interface IDrawer {
 }
 
 export interface IRouterBase {
-  authInitial?: string;
-  appInitial: string;
+  authInitialRoute?: string;
+  appInitialRoute: string;
   drawer?: IDrawer;
   activeStack?: "app" | "auth";
   env?: "dev" | "prod";
-  useSelector?: any;
-  AsyncStorage?: any;
+  dicts?: { [key: string]: any };
+  defaultLanguage?: string;
 }
 export interface IRouter extends IRouterBase {
   screens: {

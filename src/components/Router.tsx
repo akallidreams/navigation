@@ -1,11 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageContainer } from "./PageContainer";
 import { Menu } from "./Menu";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { IRoute, IRouter, IRouterProps, IStack } from "../helpers/types";
 import { utils } from "../helpers";
+import { DictProvider, useAuth } from "../hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -76,11 +78,17 @@ const AuthStack = (props: IStack) => {
   );
 };
 
-const prodRouting = ({ config }: { config: IRouter }, { auth, token }: any) =>
-  !auth.tokens.accessToken || token ? (
-    <AppStack routes={config.screens.appStack} initial={config.appInitial} />
-  ) : config.authInitial ? (
-    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
+const prodRouting = ({ config }: { config: IRouter }, { data }: any) =>
+  data.isAuthenticated ? (
+    <AppStack
+      routes={config.screens.appStack}
+      initial={config.appInitialRoute}
+    />
+  ) : config.authInitialRoute ? (
+    <AuthStack
+      routes={config.screens.authStack}
+      initial={config.authInitialRoute}
+    />
   ) : (
     console.error(
       "Config file couldn't find one of those configs: auth stack, app stack, authInitial or appInitial"
@@ -88,12 +96,15 @@ const prodRouting = ({ config }: { config: IRouter }, { auth, token }: any) =>
   );
 
 const devRouting = ({ config }: { config: IRouter }) =>
-  config.activeStack === "auth" && config.authInitial ? (
-    <AuthStack routes={config.screens.authStack} initial={config.authInitial} />
-  ) : config.appInitial ? (
+  config.activeStack === "auth" && config.authInitialRoute ? (
+    <AuthStack
+      routes={config.screens.authStack}
+      initial={config.authInitialRoute}
+    />
+  ) : config.appInitialRoute ? (
     <AppStack
       routes={config.screens.appStack}
-      initial={config.appInitial}
+      initial={config.appInitialRoute}
       drawer={config.drawer}
     />
   ) : (
@@ -103,37 +114,45 @@ const devRouting = ({ config }: { config: IRouter }) =>
   );
 
 export const Router = (props: { config: IRouterProps }) => {
-  const [token, setToken] = useState(null);
-  const [auth, setAuth] = useState(null);
+  const { data, actions } = useAuth();
 
   if (props.config.env === "prod") {
-    const authSelector = props.config.useSelector((state: any) => state).auth;
-    const persistRoot = props.config.AsyncStorage.getItem("persist:root");
+    if (!data) {
+      throw new Error(
+        "Auth provider is not defined, please wrap your app with AuthProvider"
+      );
+    }
     useEffect(() => {
-      setAuth(authSelector);
-      persistRoot.then((tk: string | null) => {
-        // FIXME: tk type
-        const local = JSON.parse(tk as string);
-        const userToken = JSON.parse(local.auth);
-        setToken(userToken.accessToken);
+      const authStorage = AsyncStorage.getItem("auth");
+      authStorage.then((storage: string | null) => {
+        const { accessToken, refreshToken, user } = JSON.parse(storage || "");
+        actions.setTokens({ accessToken, refreshToken });
+        actions.setUser(user);
+        actions.setIsAuthenticated(true);
       });
     }, []);
   }
 
-  const routes = utils.createRoutes(props.config.screens);
+  const routes = useMemo(
+    () => utils.createRoutes(props.config.screens),
+    [props.config.screens]
+  );
   const config = {
     ...props.config,
     screens: routes,
   };
 
-  // FIXME: fix config type
-
   return (
-    <NavigationContainer>
-      {props.config.env === "prod"
-        ? prodRouting({ config }, { auth, token })
-        : devRouting({ config })}
-    </NavigationContainer>
+    <DictProvider
+      dicts={config.dicts || {}}
+      defaultLang={props.config.defaultLanguage}
+    >
+      <NavigationContainer>
+        {props.config.env === "prod"
+          ? prodRouting({ config }, { data })
+          : devRouting({ config })}
+      </NavigationContainer>
+    </DictProvider>
   );
 };
 

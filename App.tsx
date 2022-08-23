@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Router } from "./src";
 import { IRouterProps } from "./src/helpers/types";
+import { AuthProvider, useAuth, useDict } from "./src/hooks";
 
 // Sample screens
 
@@ -13,16 +15,36 @@ export const Main = () => {
 };
 
 export const Login = () => {
+  const { dict, setLang } = useDict("auth");
+  const { actions, data } = useAuth();
   return (
     <View style={styles.container}>
+      <Button
+        onPress={() => {
+          console.log(data);
+          setLang("pt");
+          actions.setIsAuthenticated(true);
+        }}
+        title={dict.alive}
+      />
       <Text>I am the login screen</Text>
     </View>
   );
 };
 
 export const AnotherScreen = () => {
+  const { dict, setLang } = useDict("auth");
+  const { actions, data } = useAuth();
   return (
     <View style={styles.container}>
+      <Button
+        onPress={() => {
+          console.log(data);
+          setLang("en");
+          actions.setIsAuthenticated(false);
+        }}
+        title={dict.alive}
+      />
       <Text>I am the another screen</Text>
     </View>
   );
@@ -31,9 +53,21 @@ export const AnotherScreen = () => {
 // Config base file
 
 const routerConfig: IRouterProps = {
-  appInitial: "AnotherScreen", // Initial route
-  authInitial: "Login", // Initial route for auth stack
+  appInitialRoute: "AnotherScreen", // Initial route
+  authInitialRoute: "Login", // Initial route for auth stack
   activeStack: "auth", // 'app' or 'auth'
+  env: "prod",
+  defaultLanguage: "en",
+  dicts: {
+    auth: {
+      en: {
+        alive: "I am alive.",
+      },
+      pt: {
+        alive: "Eu estou vivo.",
+      },
+    },
+  },
   screens: {
     MainScreens: {
       Main: Main,
@@ -50,7 +84,11 @@ const routerConfig: IRouterProps = {
 
 // Provider
 export default function App() {
-  return <Router config={routerConfig} />;
+  return (
+    <AuthProvider>
+      <Router config={routerConfig} />
+    </AuthProvider>
+  );
 }
 
 const styles = StyleSheet.create({
