@@ -1,3 +1,9 @@
-export { Router } from "./src";
-export { useNav } from "./src";
+export {
+  Router,
+  useNav,
+  useAuth,
+  useDict,
+  AuthProvider,
+  DictProvider,
+} from "./src";
 export type { AkNavTypes } from "./src";

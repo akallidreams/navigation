@@ -1,5 +1,5 @@
 export { Router } from "./components";
 import * as AkNavTypes from "./helpers/types";
-export { useNav } from "./hooks";
+export { useNav, useAuth, useDict, AuthProvider, DictProvider } from "./hooks";
 
 export type { AkNavTypes };

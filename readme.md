@@ -8,7 +8,7 @@ This package helps to use react navigation in react-native projects, with integr
 
 ## Instalation
 
-`npm install @akalli/navigation react-native-svg @react-navigation/drawer @react-navigation/native @react-navigation/native-stack @react-navigation/stack`
+`npm install @akalli/navigation react-native-svg @react-navigation/drawer @react-navigation/native @react-navigation/native-stack @react-navigation/stack @react-native-async-storage/async-storage`
 
 Basic example:
 
@@ -53,18 +53,43 @@ const routerConfig: IRouterProps = {
   },
 };
 
-// Provider
+// Router Provider
 export default function App() {
   return <Router config={routerConfig} />;
 }
 ```
 
-**A more complex config example:**
+## Hooks
+
+**useNav** - Shortcuts for navigation functions.
+
+```tsx
+const { navigate, routerState, routes, route, back, drawer } = useNav();
+```
+
+**useDict** - Dictionary access mainly, but not exclusevily, for translation features.
+
+```tsx
+const { lang, setLang, dict } = useDict("myModule");
+```
+
+**useAuth** - Authentication helpers and status.
+
+> This will only work if you wrap your app with <AuthProvider>
+
+```tsx
+const {
+  data: { tokens, user, isAuthenticated },
+  actions: { setTokens, setUser, setIsAuthenticated, clearAuth },
+} = useAuth();
+```
+
+**A more advanced config example:**
 
 ```ts
 const routerConfig: IRouterProps = {
-  appInitial: "Main", // Initial route
-  authInitial: "SignIn", // Auth initial route
+  appInitialRoute: "Main", // Initial route
+  authInitialRoute: "SignIn", // Auth initial route
   env: "prod", // authentication required to access app routes
   activeStack: "auth", // active stack, works only if not env = prod
   drawer: { // drawer props
@@ -75,14 +100,24 @@ const routerConfig: IRouterProps = {
       Main: MainScreenIcon,
       SignIn: SignScreenIcon,
       AnotherScreen: AnotherScreenIcon
+    },
+    CustomMenu: MyMenu // This option makes labelColor and icons be ignored because you have full control of the Menu component
+  },
+  defaultLanguage: 'es',
+  dicts: { // dictionaries are the internationalization feature
+    main: {
+      en: {
+        MY_TEXT: 'My text'
+      },
+      pt: {
+        MY_TEXT: 'Meu texto'
+      }
     }
   },
   bgs: { // background colors
     authStack: "#26a3c9",
     appStack: "#e8d7cf"
   },
-    useSelector: useSelector, // redux hook useSelector only necessary if env = prod
-    AsyncStorage: AsyncStorage, // your persistence storage option to redux persist config only necessary if env =prod
   screens: {
     MainScreens: {
       Main: Main,
@@ -133,7 +168,8 @@ npm i styled-components @react-navigation/drawer @react-navigation/native @react
     "react-native-safe-area-context": "4.2.4",
     "react-native-svg": "12.3.0",
     "react-native-web": "0.17.7",
-    "react-native-gesture-handler": "~2.2.1"
+    "react-native-gesture-handler": "~2.2.1",
+    "@react-native-async-storage/async-storage": "~1.17.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

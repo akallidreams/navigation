@@ -79,7 +79,7 @@ const AuthStack = (props: IStack) => {
 };
 
 const prodRouting = ({ config }: { config: IRouter }, { data }: any) =>
-  data.isAuthenticated ? (
+  data.isAuthenticated && config.appInitialRoute ? (
     <AppStack
       routes={config.screens.appStack}
       initial={config.appInitialRoute}
@@ -91,7 +91,7 @@ const prodRouting = ({ config }: { config: IRouter }, { data }: any) =>
     />
   ) : (
     console.error(
-      "Config file couldn't find one of those configs: auth stack, app stack, authInitial or appInitial"
+      "Config file couldn't find one of the following: authInitialRoute, appInitialRoute"
     )
   );
 
@@ -109,7 +109,7 @@ const devRouting = ({ config }: { config: IRouter }) =>
     />
   ) : (
     console.error(
-      "Config file couldn't find one of those configs: auth stack, app stack, authInitial or appInitial"
+      "Config file couldn't find one of the following: authInitialRoute, appInitialRoute"
     )
   );
 

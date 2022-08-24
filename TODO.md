@@ -1,4 +1,4 @@
-- Update docs
+- [x] Update docs
 - publish new version
 - add to git
 - update version at CAA
